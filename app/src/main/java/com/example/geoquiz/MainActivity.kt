@@ -86,7 +86,7 @@ fun Quiz(modifier: Modifier = Modifier){
          onAnswer = { userAnswer ->
              // Проверяем ответ и сохраняем его
              if (userAnswer == questions[NumQuestion].answer) {
-                 NumQuestion++
+                 CorrectAns++
              }
              userAnswers = userAnswers.toMutableList().also { it[NumQuestion] = userAnswer }
          },
