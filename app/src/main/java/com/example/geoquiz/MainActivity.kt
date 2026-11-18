@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
 
 data class Question(val text: String, val answer: Boolean)
 
+@Preview
 @Composable
 fun Quiz(modifier: Modifier = Modifier){
     val questions = remember {
@@ -158,5 +160,24 @@ fun ResultScreen(
     totalQuestions: Int,
     onRetry: () -> Unit
 ) {
-
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Quiz is end",
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            Text(
+                text = "Right answers: $correctAnswers of $totalQuestions",
+                modifier = Modifier.padding(bottom = 32.dp)
+            )
+            Button(onClick = onRetry) {
+                Text("Play again")
+            }
+        }
+    }
 }
