@@ -4,7 +4,10 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,6 +20,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.geoquiz.ui.theme.GeoQuizTheme
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
+import androidx.compose.ui.draw.alpha
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +33,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             GeoQuizTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-
+                    Quiz(modifier = Modifier.padding(innerPadding))
                 }
             }
         }
@@ -97,7 +105,51 @@ fun QuizScreen(
     onAnswer: (Boolean) -> Unit,
     onNext: () -> Unit,
 ){
-
+    Scaffold(modifier = Modifier.fillMaxSize()) {
+    innerPadding ->
+        Column(
+            modifier = Modifier
+                .padding(innerPadding)
+                .padding(18.dp)
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = question.text,
+                modifier = Modifier.padding(34.dp)
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                Button(
+                    onClick = {onAnswer(true)},
+                    modifier = Modifier.alpha(if (hasAnswered) 0f else 1f)
+                ) {
+                    Text("True")
+                }
+                Button(
+                    onClick = {onAnswer(false)},
+                    modifier = Modifier.alpha(if (hasAnswered) 0f else 1f)
+                ) {
+                    Text("False")
+                }
+            }
+            val nextButton = if (hasAnswered && isLastQuestion) 0f else 1f
+            Button(
+                onClick = onNext,
+                enabled = hasAnswered && !isLastQuestion,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .alpha(nextButton)
+            ) {
+                Text("Next")
+            }
+        }
+    }
 }
 
 @Composable
