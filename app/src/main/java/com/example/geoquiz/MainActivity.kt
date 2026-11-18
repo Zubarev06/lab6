@@ -52,11 +52,29 @@ fun Quiz(modifier: Modifier = Modifier){
     var Result by remember {mutableStateOf(false)}
 
     LaunchedEffect(NumQuestion, userAnswers[NumQuestion]) {
-        // Срабатывает, когда мы на последнем вопросе и на него только что ответили
         if (NumQuestion == questions.size - 1 && userAnswers[NumQuestion] != null) {
             Result = true
         }
     }
 
+    if (Result) {
+        ResultScreen(
+            correctAnswers = CorrectAns,
+            totalQuestions = questions.size,
+            onRetry = {
+                NumQuestion = 0
+                userAnswers = List(questions.size) { null }
+                NumQuestion = 0
+                Result = false
+            }
+        )
+    }
+}
+@Composable
+fun ResultScreen(
+    correctAnswers: Int,
+    totalQuestions: Int,
+    onRetry: () -> Unit
+) {
 
 }
