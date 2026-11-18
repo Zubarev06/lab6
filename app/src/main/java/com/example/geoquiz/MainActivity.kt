@@ -68,8 +68,38 @@ fun Quiz(modifier: Modifier = Modifier){
                 Result = false
             }
         )
+    } else {
+     QuizScreen(
+         question = questions[NumQuestion],
+         hasAnswered = userAnswers[NumQuestion] != null,
+         isLastQuestion = NumQuestion == questions.size - 1,
+         onAnswer = { userAnswer ->
+             // Проверяем ответ и сохраняем его
+             if (userAnswer == questions[NumQuestion].answer) {
+                 NumQuestion++
+             }
+             userAnswers = userAnswers.toMutableList().also { it[NumQuestion] = userAnswer }
+         },
+         onNext = {
+             if (NumQuestion < questions.size - 1) {
+                 NumQuestion++
+             }
+         }
+     )
     }
 }
+
+@Composable
+fun QuizScreen(
+    question: Question,
+    hasAnswered: Boolean,
+    isLastQuestion: Boolean,
+    onAnswer: (Boolean) -> Unit,
+    onNext: () -> Unit,
+){
+
+}
+
 @Composable
 fun ResultScreen(
     correctAnswers: Int,
